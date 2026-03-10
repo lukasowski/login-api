@@ -1,27 +1,26 @@
 const express = require("express");
-const app = express();
+const fs = require("fs");
 
-// pozwala odbierać JSON
+const app = express();
 app.use(express.json());
 
-// endpoint logowania
+function getUsers() {
+    const data = fs.readFileSync("users.json");
+    return JSON.parse(data);
+}
+
 app.post("/login", (req, res) => {
     const { login, password } = req.body;
 
-    if (login === "admin" && password === "1234") {
+    const users = getUsers();
+
+    const user = users.find(u => u.login === login && u.password === password);
+
+    if (user) {
         res.json({ status: "ok" });
     } else {
         res.json({ status: "error" });
     }
 });
 
-// prosty test czy serwer działa
-app.get("/", (req, res) => {
-    res.send("Login API działa");
-});
-
-// ważne dla Render
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log("Server running on port " + PORT);
-});
+app.listen(process.env.PORT || 3000);
