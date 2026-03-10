@@ -1,0 +1,6 @@
+[
+  { "login": "admin", "password": "1234" },
+  { "login": "test", "psswaord": "abcd" },
+  { "login": "kupa", "psswaord": "123" }
+  
+]
